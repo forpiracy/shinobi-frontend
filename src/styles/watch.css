@@ -1,0 +1,355 @@
+.watch-section {
+    display: flex;
+    margin: 0px 10px 20px 10px;
+    z-index: 1;
+}
+
+.episodes-container {
+    position: relative;
+    margin-right: 10px;
+    background-color: var(--first-layer);
+    color: white;
+    border-radius: 0.3rem;
+    /* overflow: hidden; */
+    /* flex-grow: 1; */
+    /* display: flex;
+    flex-direction: column; */
+    /* animation: 0.25s ease-in-out 0s 1 normal none running slideLeft; */
+    height: 615px;
+    width: 500px;
+}
+
+.episodes-info {
+    display: flex;
+    gap: 0.5rem;
+    border-bottom: 1px solid rgb(245, 245, 245, 0.1);
+    padding: 0.35rem 0.5rem;
+    justify-content: space-between;
+}
+
+.episodes-division {
+    padding: 0.5rem;
+    background-color: var(--second-layer);
+    color: white;
+    border: none;
+    border-radius: 0.3rem;
+    cursor: pointer;
+}
+
+.episodes-division:disabled {
+    cursor: not-allowed;
+}
+
+.episodes-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(3.5rem, 1fr));
+    gap: 0.4rem;
+    padding: 0.4rem;
+    overflow-y: auto;
+    flex-grow: 1;
+}
+
+.episodes-button {
+    border: none;
+    border-radius: 0.3rem;
+    cursor: pointer;
+    background-color: var(--second-layer);
+    color: grey;
+    padding: 0.4rem 0px;
+    text-decoration: none;
+    text-align: center;
+    box-shadow: 0px 0px 5px rgb(0, 0, 0, 0.6);
+}
+
+.episodes-button:hover {
+    filter: brightness(1.5);
+    outline: rgb(255, 255, 255) solid 1px;
+}
+
+.episodes-button.active {
+    background-color: var(--site-color);
+    filter: brightness(0.7);
+    color: #0e0e0e;
+}
+
+.episodes-list-error {
+    position: absolute;
+    top: 5%;
+    left: 10%;
+    padding: 0.4rem 0.5rem;
+    border-radius: 0.3rem;
+    background-color: var(--second-layer);
+    box-shadow: 0px 0px 5px rgb(0, 0, 0, 0.6);
+    font-weight: bold;
+    font-size: large;
+}
+
+.loader {
+    display: block;
+    position: absolute;
+    top: 45%;
+    left: 45%;
+}
+
+.video-player {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    outline: rgb(255, 255, 255, 0.1) solid 1px;
+    padding: 1px;
+    border-radius: 0.3rem;
+    width: 1008px;
+    height: 567px;
+    margin-bottom: 5px;
+}
+
+.video-player-poster {
+    /* position: absolute; */
+    /* top: 30%; */
+    object-fit: cover;
+    width: 1006px;
+    max-height: 565px;
+}
+
+.episode-error {
+    position: absolute;
+    top: 5%;
+    left: 25%;
+    color: red;
+    font-weight: bold;
+    font-size: large;
+}
+
+.episode-loader {
+    position: absolute;
+    top: 47%;
+    left: 48%;
+}
+
+/* .video-js-wrapper {
+    width: 700px;
+    height: 565px;
+} */
+
+/* .vjs-big-play-centered {
+    width: 500px;
+    height: 565px;   
+} */
+
+.servers {
+    display: flex;
+    background-color: var(--first-layer);
+    color: gray;
+    border-radius: 0.3rem;
+    padding: 0.35rem 0.5rem;
+    gap: 10px;
+}
+
+.servers-list-error {
+    padding: 0.3rem;
+    color: red;
+}
+
+.server-loader {
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.servers span {
+    padding: 0.3rem;
+    font-weight: bold;
+}
+
+.server-button {
+    padding: 0.3rem 0.8rem;
+    color: grey;
+    filter: brightness(1.2);
+    background-color: var(--second-layer);
+    box-shadow: 0px 0px 5px rgb(0, 0, 0, 0.6);
+    cursor: pointer;
+    border-radius: 0.3rem;
+    border: none;
+    font-weight: bold;
+}
+
+.server-button:disabled {
+    cursor: not-allowed;
+}
+
+.server-button:hover {
+    filter: brightness(1.5);
+    outline: rgb(255, 255, 255) solid 1px;
+}
+
+.server-button.active {
+    background-color: var(--site-color);
+    filter: brightness(0.7);
+    color: #0e0e0e;
+}
+
+
+
+/* episodesListLoader */
+.container {
+    --uib-size: 45px;
+    --uib-color: var(--site-color);
+    --uib-speed: 1.75s;
+    --uib-bg-opacity: .1;
+    height: 31.25px;
+    width: 50px;
+    transform-origin: center;
+    overflow: visible;
+    filter: brightness(2);
+}
+
+.car {
+    stroke: var(--uib-color);
+    stroke-dasharray: 100;
+    stroke-dashoffset: 0;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    animation:
+        travel var(--uib-speed) ease-in-out infinite,
+        fade var(--uib-speed) ease-out infinite;
+    will-change: stroke-dasharray, stroke-dashoffset;
+    transition: stroke 0.5s ease;
+}
+
+.track {
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke: var(--uib-color);
+    opacity: var(--uib-bg-opacity);
+}
+
+@keyframes travel {
+    0% {
+        stroke-dashoffset: 100;
+    }
+
+    75% {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes fade {
+    0% {
+        opacity: 0;
+    }
+
+    20%,
+    55% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+
+
+
+/* episodeLoader */
+.episode-loader-container {
+    --uib-size: 35px;
+    --uib-color: black;
+    --uib-speed: 1s;
+    --uib-stroke: 3.5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: var(--uib-size);
+    height: calc(var(--uib-size) * 0.9);
+}
+
+.bar {
+    width: var(--uib-stroke);
+    height: 100%;
+    background-color: var(--site-color);
+    transition: background-color 0.3s ease;
+}
+
+.bar:nth-child(1) {
+    animation: grow var(--uib-speed) ease-in-out calc(var(--uib-speed) * -0.45) infinite;
+}
+
+.bar:nth-child(2) {
+    animation: grow var(--uib-speed) ease-in-out calc(var(--uib-speed) * -0.3) infinite;
+}
+
+.bar:nth-child(3) {
+    animation: grow var(--uib-speed) ease-in-out calc(var(--uib-speed) * -0.15) infinite;
+}
+
+.bar:nth-child(4) {
+    animation: grow var(--uib-speed) ease-in-out infinite;
+}
+
+@keyframes grow {
+
+    0%,
+    100% {
+        transform: scaleY(0.3);
+    }
+
+    50% {
+        transform: scaleY(1);
+    }
+}
+
+
+
+
+/* serverLoader */
+.server-loader-container {
+    --uib-size: 43px;
+    --uib-color: black;
+    --uib-speed: 1.3s;
+    --uib-dot-size: calc(var(--uib-size) * 0.24);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: var(--uib-dot-size);
+    width: var(--uib-size);
+}
+
+.dot,
+.server-loader-container::before,
+.server-loader-container::after {
+    content: '';
+    display: block;
+    height: var(--uib-dot-size);
+    width: var(--uib-dot-size);
+    border-radius: 50%;
+    background-color: var(--site-color);
+    transform: scale(0);
+    transition: background-color 0.3s ease;
+}
+
+.server-loader-container::before {
+    animation: pulse var(--uib-speed) ease-in-out calc(var(--uib-speed) * -0.375) infinite;
+}
+
+.dot {
+    animation: pulse var(--uib-speed) ease-in-out calc(var(--uib-speed) * -0.25) infinite both;
+}
+
+.server-loader-container::after {
+    animation: pulse var(--uib-speed) ease-in-out calc(var(--uib-speed) * -0.125) infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        transform: scale(0);
+    }
+
+    50% {
+        transform: scale(1);
+    }
+}
