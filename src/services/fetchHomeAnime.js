@@ -8,10 +8,15 @@ export const fetchHomeAnime = async () => {
                 media(sort: TRENDING_DESC, type: ANIME) {
                 id
                 title {
+                    romaji
                     english
                 }
                 description
-                seasonYear
+                startDate {
+                    day
+                    month
+                    year
+                }
                 episodes
                 nextAiringEpisode{
                     episode
@@ -33,14 +38,18 @@ export const fetchHomeAnime = async () => {
                     romaji
                     english
                 }
-                seasonYear
+                startDate {
+                    day
+                    month
+                    year
+                }
                 episodes
                 nextAiringEpisode{
                     episode
                 }
                 coverImage {
-                    color
                     large
+                    color
                 }
                 format
                 status
@@ -55,7 +64,11 @@ export const fetchHomeAnime = async () => {
                     romaji
                     english
                 }
-                seasonYear
+                startDate {
+                    day
+                    month
+                    year
+                }
                 episodes
                 nextAiringEpisode{
                     episode
@@ -74,10 +87,14 @@ export const fetchHomeAnime = async () => {
                 media(sort: SCORE_DESC, type: ANIME) {
                 id
                 title {
-                    english
                     romaji
+                    english
                 }
-                seasonYear
+                startDate {
+                    day
+                    month
+                    year
+                }
                 episodes
                 nextAiringEpisode{
                     episode
@@ -96,10 +113,14 @@ export const fetchHomeAnime = async () => {
                 media(sort: POPULARITY_DESC, type: ANIME) {
                 id
                 title {
-                    english
                     romaji
+                    english
                 }
-                seasonYear
+                startDate {
+                    day
+                    month
+                    year
+                }
                 episodes
                 nextAiringEpisode{
                     episode
@@ -118,10 +139,14 @@ export const fetchHomeAnime = async () => {
                 media(sort: FAVOURITES_DESC, type: ANIME) {
                 id
                 title {
-                    english
                     romaji
+                    english
                 }
-                seasonYear
+                startDate {
+                    day
+                    month
+                    year
+                }
                 episodes
                 nextAiringEpisode{
                     episode
@@ -140,13 +165,13 @@ export const fetchHomeAnime = async () => {
                 media(season: $upcomingSeason, seasonYear: $upcomingSeasonYear, sort: POPULARITY_DESC, type: ANIME) {
                 id
                 title {
-                    english
                     romaji
+                    english
                 }
                 startDate {
-                    year
-                    month
                     day
+                    month
+                    year
                 }
                 episodes
                 coverImage {

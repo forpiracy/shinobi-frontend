@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
-import '../styles/verticalCarousel.css'; // Adjust the path as needed
-import RowCard from '../components/RowCard'; // Adjust the path as needed
+import '../styles/verticalCarousel.css'; 
+import SmallCard from '../components/SmallCard'; 
 
 const VerticalCarousel = ({ animeList, heading }) => {
   const scrollableRef = useRef(null);
@@ -45,7 +45,7 @@ const VerticalCarousel = ({ animeList, heading }) => {
       <div className="v-scrollable" ref={scrollableRef}>
         {animeList.map((anime, index) => (
           <div className="v-card-wrapper" key={index}>
-            <RowCard anime={anime} />
+            <SmallCard anime={anime} />
           </div>
         ))}
       </div>

@@ -1,51 +1,73 @@
 import { useLocation } from 'react-router-dom';
-import useSWR from 'swr';
-import ColumnCard from '../components/ColumnCard';
 import { fetchSearchAnime } from '../services/fetchSearchAnime';
+import { useEffect, useState } from 'react';
+import BigCard from '../components/BigCard';
 
 const Search = () => {
     const location = useLocation();
     const params = new URLSearchParams(location.search);
     const title = params.get('title');
 
-    const { data: searchResult, error } = useSWR(
-        title,
-        fetchSearchAnime,
-        {
-            refreshInterval: 0,            // Disable auto-revalidation
-            revalidateOnFocus: false,      // Disable revalidation on focus
-            revalidateOnReconnect: false,  // Disable revalidation on network reconnect
-            dedupingInterval: Infinity,    // Prevent revalidation by setting deduplication to Infinity
-            revalidateIfStale: false,      // Disable revalidation if data is stale
-            errorRetryInterval: 5000 ,
-            errorRetryCount: 2,
-        }
-    );
+    const [pageLoading, setPageLoading] = useState(0);
+    const [searchAnime, setSearchAnime] = useState();
 
-    if (error) return <h2 style={{ marginLeft: '30px', color: 'white' }}>Failed to load data</h2>;
-    if (!searchResult) return <h2 style={{ marginLeft: '30px', color: 'white' }}>Loading results for "{title}"...</h2>;
+    
+    useEffect(()=>{
+        setPageLoading(0);
+        const fetchSearchPage = async () =>{
+            let data;
+            let err = false;
+            const cache = sessionStorage.getItem(`${title}-titleSearched`)
+            if(cache){
+                console.log(`searchAnime found for: ${title}-titleSearched`);
+                console.log(cache);
+                data = JSON.parse(cache);
+            }
+            else{
+                try{
+                    data = await fetchSearchAnime(title);
+                    console.log(data);
+                    sessionStorage.setItem(`${title}-titleSearched`, JSON.stringify(data));
+                }
+                catch(error){
+                    // console.log('error');
+                    err = true;
+                }
+            }
+            
+            if(err){
+                setPageLoading(10);
+            }
+            else{
+                setSearchAnime(data);
+                setPageLoading(1);
+            }
+        }
+        fetchSearchPage();
+    }, [title]);
+
+    if (pageLoading===10) return <h2 style={{ marginLeft: '30px', color: 'white' }}>Failed to load data</h2>;
+    if (pageLoading===0) return <h2 style={{ marginLeft: '30px', color: 'white' }}>Loading results for "{title}"...</h2>;
 
     return (
         <div>
-            {searchResult.length === 0 ? (
+            {searchAnime.length === 0 ? (
                 <h2 style={{ marginLeft: '30px', color: 'white' }}>
                     No results found for "{title}"
                 </h2>
             ) : (
                 <div className="results"
                     style={{
-                        'width': '90%',
-                        'margin': '70px',
-                        'marginTop': '0px',
-                        'padding': '20px',
+                        'padding': '30px',
+                        'paddingTop': '10px',
                         'display': 'grid',
                         'gridTemplateRows': 'auto',
-                        'gridTemplateColumns': 'repeat(auto-fill, minmax(150px, 1fr))',
-                        'gap': '28px',
+                        'gridTemplateColumns': 'repeat(auto-fill, minmax(350px, 1fr))',
+                        'gap': '25px 20px',
                         'overflow': 'hidden'
                     }}>
-                    {searchResult.map((anime, index) => (
-                        <ColumnCard key={index} anime={anime} />
+                    {searchAnime.map((anime, index) => (
+                        <BigCard key={index} anime={anime} />
                     ))}
                 </div>
             )}

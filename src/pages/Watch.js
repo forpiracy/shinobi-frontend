@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState, useRef } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import AnimeDetails from "../components/AnimeDetails";
 import VideoJS from "../components/VideoJS";
@@ -10,6 +10,9 @@ import { fetchAnimeDetails } from "../services/fetchAnimeDetails";
 // 1-9 -> other states for choosing component rendering
 
 const Watch = () => {
+
+    const backendApiUrl = process.env.REACT_APP_API_URL;
+
     const params = useParams();
     const anilistId = params.anilistId;
     console.log(anilistId);
@@ -29,12 +32,13 @@ const Watch = () => {
 
     useEffect(() => {
         setPageLoading(0);
-        setServersListLoading(1);
-        setEpisodeLoading(1);
-        setCurrentEpisode(null);
         setEpisodesListLoading(0);
+        setServersListLoading(1);
+        setSelectedRange(0);
+        setEpisodeLoading(1);
+        setCurrentEpisode(0);
     }, [anilistId])
-
+    
     useEffect(() => {
         const fetchWatch = async () => {
             let data;
@@ -82,7 +86,7 @@ const Watch = () => {
                 else{
                     try{
                         console.log(animeDetails.title.romaji, animeDetails.startDate.year-1, animeDetails.startDate.year+1, animeDetails.nextAiringEpisode ? animeDetails.nextAiringEpisode.episode - 1 : animeDetails.episodes, animeDetails.format==='MOVIE' ? 'Movie' : animeDetails.format)
-                        const response = await fetch('https://shinobi-backend.onrender.com/search', {
+                        const response = await fetch(`${backendApiUrl}/search`, {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json'
@@ -135,7 +139,7 @@ const Watch = () => {
                 }
                 else{
                     try{
-                        const response = await fetch(`https://shinobi-backend.onrender.com/episodesList/${hianimeId}`)
+                        const response = await fetch(`${backendApiUrl}/episodesList/${hianimeId}`)
                         data = await response.json();
 
                         if(!response.ok){
@@ -189,15 +193,15 @@ const Watch = () => {
         const fetchServersList = async () => {
             let data;
             let err = false;
-            const cache = sessionStorage.getItem(episodeId);
+            const cache = sessionStorage.getItem(`${episodeId}-episodeId`);
             if(cache){
-                console.log(`serversList found for: ${episodeId}`);
+                console.log(`serversList found for: ${episodeId}-episodeId`);
                 console.log(cache);
                 data = JSON.parse(cache);
             }
             else{
                 try{
-                    const response = await fetch(`https://shinobi-backend.onrender.com/serversList/${episodeIdData}`)
+                    const response = await fetch(`${backendApiUrl}/serversList/${episodeIdData}`)
                     data = await response.json();
 
                     if(!response.ok){
@@ -205,7 +209,7 @@ const Watch = () => {
                     }
                     else{
                         console.log(data);
-                        sessionStorage.setItem(episodeId, JSON.stringify(data));
+                        sessionStorage.setItem(`${episodeId}-episodeId`, JSON.stringify(data));
                     }
                 }
                 catch(error){
@@ -247,7 +251,7 @@ const Watch = () => {
             }
             else{
                 try{
-                    const response = await fetch(`https://shinobi-backend.onrender.com/sourceLink/${srcId}`)
+                    const response = await fetch(`${backendApiUrl}/sourceLink/${srcId}`)
                     data = await response.json();
 
                     if(!response.ok){
@@ -408,7 +412,7 @@ const VideoPlayer = ({ serversList, currentServer, handleServerClick, serversLis
             source.tracks.map((track) => (track.kind !=='thumbnails' &&
                 {
                     src: track.file,
-                    label: track.label,
+                    label: track.label.split(' ')[0],
                     kind: track.kind,
                     default: track.default || false
                 }

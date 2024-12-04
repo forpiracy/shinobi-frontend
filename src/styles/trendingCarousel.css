@@ -83,6 +83,10 @@
     background-color: var(--airing-color);
 }
 
+.t-upcoming {
+    background-color: var(--upcoming-color);
+}
+
 /* use-shadow for better visibility
   - text shadow ?
   - or shadow around lower and left part of image ? */

@@ -39,29 +39,27 @@ export const fetchAnimeDetails = async (anilistId) => {
                 relations {
                 edges {
                     node {
-                    id
-                    title {
-                        romaji
-                        english
-                    }
-                    seasonYear
-                    startDate {
-                        day
-                        month
-                        year
-                    }
-                    episodes
-                    nextAiringEpisode{
-                        episode
-                    }
-                    coverImage {
-                        large
-                        color
-                    }
-                    format
-                    type
-                    status
-                    duration
+                        id
+                        title {
+                            romaji
+                            english
+                        }
+                        startDate {
+                            day
+                            month
+                            year
+                        }
+                        episodes
+                        nextAiringEpisode{
+                            episode
+                        }
+                        coverImage {
+                            large
+                            color
+                        }
+                        format
+                        status
+                        duration
                     }
                     relationType
                 }
@@ -72,22 +70,21 @@ export const fetchAnimeDetails = async (anilistId) => {
                     mediaRecommendation {
                         id
                         title {
-                        romaji
-                        english
+                            romaji
+                            english
                         }
-                        seasonYear
                         startDate {
-                        day
-                        month
-                        year
+                            day
+                            month
+                            year
                         }
                         episodes
                         nextAiringEpisode{
-                        episode
+                            episode
                         }
                         coverImage {
-                        large
-                        color
+                            large
+                            color
                         }
                         format
                         status
@@ -119,8 +116,8 @@ export const fetchAnimeDetails = async (anilistId) => {
         const response = await fetch(url, options);
         const data = await response.json();
         // console.log(data);
-        
-        if(data.errors){
+
+        if (data.errors) {
             throw data;
         }
 

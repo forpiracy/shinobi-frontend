@@ -6,18 +6,27 @@ const AnimeDetails = ({ anime }) => {
     // const animeColor = anime.coverImage.color ? anime.coverImage.color : 'grey';
     // const englishtTitle = anime.title.english ? anime.title.english : 'TBD';
     // const format = anime.format ? anime.format : 'NA';
-    const releaseDate = `${anime.startDate.day ? `${anime.startDate.day}/` : ''}${anime.startDate.month ? `${anime.startDate.month}/` : ''}${anime.startDate.year ? anime.startDate.year : 'NA'}`;
-    const episodes = `${anime.nextAiringEpisode ? `${anime.nextAiringEpisode.episode - 1}/` : ''}${anime.episodes ? anime.episodes : 'NA'}`;
-    const duration = anime.duration ? `${Math.floor(anime.duration / 60)}h ${Math.floor(anime.duration) % 60}m` : 'NA';
+    const releaseDate = `${anime.startDate.day ? `${anime.startDate.day}/` : ''}${anime.startDate.month ? `${anime.startDate.month}/` : ''}${anime.startDate.year || 'NA'}`;
+    const episodes = `${anime.nextAiringEpisode ? `${anime.nextAiringEpisode.episode - 1}/` : ''}${anime.episodes || 'NA'}`;
+    const duration = anime.duration ?
+        (anime.duration < 60 ? `${anime.duration}M` : `${Math.floor(anime.duration / 60)}H ${Math.floor(anime.duration) % 60}M`)
+        : 'NA';
     // const season = anime.season ? anime.season : 'NA';
+
+    let ct=0;
+    anime.relations.edges.forEach(anime => {
+        if(anime.node.format !== 'MANGA' &&
+        anime.node.format !== 'NOVEL' &&
+        anime.node.format !== 'ONE_SHOT') ct++;
+    })
 
     return (
         <>
-            <div className="anime-cover" style={{ '--anime-color': anime.coverImage.color }}>
-                <img className="bannerImage" src={anime.bannerImage} alt={anime.title.romaji} />
+            <div className="anime-cover" style={{ '--anime-color': anime.coverImage.color || 'gray' }}>
+                <img className="bannerImage" src={anime.bannerImage} alt={anime.title.english || anime.title.romaji} />
 
                 <div className="anime-info">
-                    <img src={anime.coverImage.extraLarge} alt={anime.title.romaji} />
+                    <img src={anime.coverImage.extraLarge} alt={anime.title.english || anime.title.romaji} />
                     <div className="anime-info-right">
                         <p className="anime-title"> {anime.title.english || 'TBD'} </p>
                         <p className="anime-title-romaji"> {anime.title.romaji} </p>
@@ -60,8 +69,8 @@ const AnimeDetails = ({ anime }) => {
 
             </div>
 
-            <HorizontalCarousel animeList={anime.relations.edges} heading = 'RELATED ANIMES' carouselId = 'relations' />
-            <HorizontalCarousel animeList={anime.recommendations.edges} heading = 'RECOMMENDED ANIMES' carouselId = 'recommendations' />
+            {ct !==0 && <HorizontalCarousel animeList={anime.relations.edges} heading = 'RELATED ANIMES' carouselId = 'relations' /> }
+            {anime.recommendations.edges.length>0 && <HorizontalCarousel animeList={anime.recommendations.edges} heading = 'RECOMMENDED ANIMES' carouselId = 'recommendations' /> }
 
         </>
     );

@@ -11,7 +11,6 @@ export const fetchSearchAnime = async (title) => {
                     romaji
                     english
                 }
-                seasonYear
                 startDate {
                     day
                     month
